@@ -1,11 +1,13 @@
 import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
+import ClassList from "./classList";
 
 export default function Home() {
   return (
-    <div className="flex">
+    <div className="flex w-screen h-screen">
       <Sidebar />
-      <Header />
+      <div className="w-screen">
+        <ClassList />
+      </div>
     </div>
   );
 }
