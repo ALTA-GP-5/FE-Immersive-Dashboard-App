@@ -1,5 +1,6 @@
 import Sidebar from "../components/Sidebar";
 import ClassList from "./classList";
+import MenteeLog from "./menteeLog";
 import UserList from "./userList";
 
 export default function Home() {
@@ -7,7 +8,7 @@ export default function Home() {
     <div className="flex w-screen h-screen">
       <Sidebar />
       <div className="w-screen">
-        <UserList />
+        <MenteeLog />
       </div>
     </div>
   );

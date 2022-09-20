@@ -89,7 +89,7 @@ const UserList = () => {
               autocomplete="off"
             />
           </div>
-          <Button className="flex text-slate-900  ml-3" variant="outlined">
+          <Button className="flex text-slate-900 " variant="outlined">
             Add new
           </Button>
         </form>
