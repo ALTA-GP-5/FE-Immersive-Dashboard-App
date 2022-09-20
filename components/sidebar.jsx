@@ -1,59 +1,43 @@
-import Image from "next/image";
-import { Group, Home, Person, Class } from "@mui/icons-material";
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
 import React from "react";
+import Image from "next/image";
+
 import Logo from "../assets/logo1.png";
 
 const Sidebar = () => {
   return (
-    <div className="h-fullscreen">
-      <Box className="border-4 h-full bg-stone-300 w-1/6" position="fixed">
-        <Image src={Logo} alt="hilih" height={77} width={200} />
-        <List>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="#home">
-              <ListItemIcon>
-                <Home />
-              </ListItemIcon>
-              <ListItemText primary="Dashboard" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="#simple-list">
-              <ListItemIcon>
-                <Group />
-              </ListItemIcon>
+    <div className="md:w-3/12 w-6/12 h-screen shadow-2xl">
+      <div className=" border-b py-3 mt-1 flex justify-around ">
+        <p className="text-xl  font-semibold">
+          <Image src={Logo} alt="lebydo" />
+        </p>
+        <p className="text-gray-400 text-lg"></p>
+      </div>
+      <div className="p-4 space-y-14">
+        <div className="space-y-4">
+          <div className="">
+            <div className="flex p-3 text-gray-700  space-x-4 0 hover:bg-gray-50 hover:text-blue-600  cursor-pointer  ">
+              <p className=" ">Dashboard</p>
+            </div>
+          </div>
+          <div className="">
+            <div className="flex p-3 text-gray-700  space-x-4 0 hover:bg-gray-50 hover:text-blue-600  cursor-pointer  ">
+              <p className="text-gray-600  ">Mentee</p>
+            </div>
+          </div>
 
-              <ListItemText primary="Mentee" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="#simple-list">
-              <ListItemIcon>
-                <Person />
-              </ListItemIcon>
-
-              <ListItemText primary="Users" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="#simple-list">
-              <ListItemIcon>
-                <Class />
-              </ListItemIcon>
-
-              <ListItemText primary="Class" />
-            </ListItemButton>
-          </ListItem>
-        </List>
-      </Box>
+          <div className="">
+            <div className="flex p-3 text-gray-700  space-x-4 0 hover:bg-gray-50 hover:text-blue-600  cursor-pointer  ">
+              <p className="text-gray-600  ">Users</p>
+            </div>
+          </div>
+          <div className="">
+            <div className="flex p-3 text-gray-700  space-x-4 0 hover:bg-gray-50 hover:text-blue-600  cursor-pointer  ">
+              <p className="text-gray-600  ">Class</p>
+            </div>
+          </div>
+        </div>
+        <div className="space-y-6"></div>
+      </div>
     </div>
   );
 };
