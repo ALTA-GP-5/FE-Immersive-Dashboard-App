@@ -4,18 +4,6 @@ import { Button } from "@mui/material";
 import Table from "../components/table";
 
 const MenteeLog = () => {
-  // const [listMentee, setListMentee] = useState(["NamaKelas", "Mentor"]);
-  // const [table, setTable] = useState([
-  //   { NamaKelas: "Front-end Batch 7", Mentor: "Yoga Devanada" },
-  //   { NamaKelas: "Front-end Batch 7", Mentor: "Yoga Devanada" },
-  //   { NamaKelas: "Front-end Batch 8", Mentor: "Bagas Adhitiya" },
-  //   { NamaKelas: "Front-end Batch 8", Mentor: "Bagas Adhitiya" },
-  //   { NamaKelas: "Back-end Batch 10", Mentor: "Jerry Young" },
-  //   { NamaKelas: "Back-end Batch 10", Mentor: "Jerry Young" },
-  //   { NamaKelas: "Back-end Batch 11", Mentor: "Fachkry" },
-  //   { NamaKelas: "Back-end Batch 11", Mentor: "Fachkry" },
-  // ]);
-
   return (
     <>
       <div className=" shadow-sm bg-gray-200 w-full h-24 p-4 justify-between  ">
