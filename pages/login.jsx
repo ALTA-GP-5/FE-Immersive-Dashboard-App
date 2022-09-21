@@ -55,7 +55,7 @@ const Login = () => {
                     <button class="bg-gray-500 text-white rounded-md px-2 py-1">
                       Login
                     </button>
-                    <p className="text-center text-xs mt-4 font-bold">
+                    <p className="text-center text-xs mt-4 font-bold ">
                       Success is no accident. It is hard work, perseverance,
                       learning, studying, sacrifice and most of all, love of
                       what you are doing or learning to do
