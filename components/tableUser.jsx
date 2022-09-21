@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 
 const TableUser = ({ listUser, table }) => {
+  const route = useRouter();
+
   return (
     <div className=" flex justify-center mt-10 ">
       <table className=" sp:text-[8px] xs:text-xs sm:text-lg snap-mandatory snap-x row-border pb-[72px] mt-10 py-[26px] table-auto border-separate border-spacing-x-2 sm:border-spacing-x-12 border-x-[1px] border-b-[1px] border-slate-500 text-center rounded-b-lg">
@@ -34,6 +37,9 @@ const TableUser = ({ listUser, table }) => {
                   <td>{item.Status}</td>
                   <td>
                     <button
+                      onClick={() => {
+                        route.push("/editUser");
+                      }}
                       className="flex text-slate-900  ml-1"
                       variant="outlined"
                     >
