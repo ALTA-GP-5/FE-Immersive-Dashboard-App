@@ -7,6 +7,10 @@ import MenteeLog from "./menteeLog";
 import UserList from "./userList";
 import Dashboard from "./Dashboard";
 import Header from "../components/header";
+import Addmentee from "./addmentee";
+import NewLog from "./NewLog";
+import EditUser from "./editUser";
+import EditMentee from "./editMentee";
 
 export default function Home() {
   return (
@@ -14,7 +18,7 @@ export default function Home() {
       <Sidebar />
 
       <div className="w-screen">
-        <Dashboard />
+        <EditMentee />
       </div>
     </div>
   );
