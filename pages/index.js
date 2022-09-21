@@ -9,7 +9,7 @@ export default function Home() {
     <div className="flex w-screen h-screen">
       <Sidebar />
       <div className="w-screen">
-        <MenteeList />
+        <UserList />
       </div>
     </div>
   );

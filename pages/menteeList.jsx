@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
+import TableList from "../components/tableList";
 
 const options = ["QE 7", "FE 8", "BE 11"];
-const options2 = ["Active", "Placement", "Eliminate"];
+const options2 = [
+  "Interview",
+  "Join Class",
+  "Unit 1",
+  "Unit 2",
+  "Unit 3",
+  "Repeat Unit 1",
+  "Repeat Unit 2",
+  "Repeat Unit 3",
+  "Placement",
+  "Eliminate",
+  "Active",
+  "Non Active",
+  "Graduated",
+];
 const options3 = ["Informatict", "Non-Informatict"];
 
 const MenteeList = () => {
@@ -16,6 +31,39 @@ const MenteeList = () => {
 
   const [value3, setValue3] = React.useState(options[0]);
   const [inputValue3, setInputValue3] = React.useState("");
+
+  const [listFil, setListFil] = useState([
+    "Nama",
+    "Kelas",
+    "Status",
+    "Category",
+    "Gender",
+    "Detail",
+  ]);
+  const [table, setTable] = useState([
+    {
+      Nama: "Uzumaki Boruto",
+      Kelas: "QE 7",
+      Status: "Active",
+      Category: "IT",
+      Gender: "Male",
+    },
+    {
+      Nama: "Uzumaki Himawari",
+      Kelas: "BE 11",
+      Status: "Unit 1",
+      Category: "Non IT",
+      Gender: "Female",
+    },
+    {
+      Nama: "Uzumaki borutot",
+      Kelas: "QE 7",
+      Status: "Active",
+      Category: "IT",
+      Gender: "Male",
+    },
+  ]);
+
   return (
     <>
       {" "}
@@ -80,7 +128,7 @@ const MenteeList = () => {
 
         {/* value 2 */}
 
-        <div className="flex mt-10 ml-5">
+        <div className="flex mt-10 ml-5 ">
           <br />
           <Autocomplete
             value2={value2}
@@ -103,13 +151,13 @@ const MenteeList = () => {
         <div className="flex mt-10 ml-5">
           <br />
           <Autocomplete
-            value2={value3}
+            value3={value3}
             onChange={(event, newValue3) => {
-              setValue2(newValue3);
+              setValue3(newValue3);
             }}
-            inputValue2={inputValue3}
+            inputValue3={inputValue3}
             onInputChange={(event, newInputValue) => {
-              setInputValue2(newInputValue);
+              setInputValue3(newInputValue);
             }}
             id="controllable-states-demo"
             options={options3}
@@ -128,6 +176,7 @@ const MenteeList = () => {
           </Button>
         </form>
       </div>
+      <TableList listFil={listFil} table={table} />
     </>
   );
 };
