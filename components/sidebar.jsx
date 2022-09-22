@@ -13,7 +13,7 @@ const Sidebar = () => {
     route.push("/");
   };
   return (
-    <div className="md:w-3/12 w-6/12 h-screen ">
+    <div className="md:w-3/12 w-6/12 h-screen bg-slate-300">
       <div className=" border-b py-3 mt-1 flex justify-around ">
         <p className="text-xl  font-semibold">
           <button
@@ -29,7 +29,7 @@ const Sidebar = () => {
       <div className="p-4 space-y-14">
         <div className="space-y-4">
           <div className="">
-            <div className="flex p-3 text-gray-700  space-x-4 0 hover:bg-gray-50 hover:text-blue-900  cursor-pointer  ">
+            <div className="flex p-3 text-gray-900  space-x-4 0 hover:bg-gray-400 hover:text-slate-50  cursor-pointer  ">
               <button
                 onClick={() => {
                   route.push("/dashboard");
@@ -41,7 +41,7 @@ const Sidebar = () => {
             </div>
           </div>
           <div className="">
-            <div className="flex p-3 text-gray-700  space-x-4 0 hover:bg-gray-50 hover:text-blue-900  cursor-pointer  ">
+            <div className="flex p-3 text-gray-900  space-x-4 0 hover:bg-gray-400 hover:text-slate-50  cursor-pointer  ">
               <button
                 onClick={() => {
                   route.push("/menteeList");
@@ -54,7 +54,7 @@ const Sidebar = () => {
           </div>
 
           <div className="">
-            <div className="flex p-3 text-gray-700  space-x-4 0 hover:bg-gray-50 hover:text-blue-900  cursor-pointer  ">
+            <div className="flex p-3 text-gray-900  space-x-4 0 hover:bg-gray-400 hover:text-slate-50  cursor-pointer  ">
               <button
                 onClick={() => {
                   route.push("/userList");
@@ -66,7 +66,7 @@ const Sidebar = () => {
             </div>
           </div>
           <div>
-            <div className="flex p-3 text-gray-700  space-x-4 0 hover:bg-gray-50 hover:text-blue-900  cursor-pointer  ">
+            <div className="flex p-3 text-gray-900  space-x-4 0 hover:bg-gray-400 hover:text-slate-50  cursor-pointer  ">
               <button
                 onClick={() => {
                   route.push("/classList");
@@ -77,7 +77,7 @@ const Sidebar = () => {
             </div>
           </div>
           <div>
-            <div className="flex p-3 text-gray-700  space-x-4 0 hover:bg-gray-50 hover:text-blue-900  cursor-pointer  ">
+            <div className="flex p-3 text-gray-900  space-x-4 0 hover:bg-gray-400 hover:text-slate-50  cursor-pointer  ">
               <button onClick={handleLogout}>Logout</button>
             </div>
           </div>
