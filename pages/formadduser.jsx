@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import Sidebar from "../components/sidebar";
 import { useRouter } from "next/router";
@@ -6,7 +6,7 @@ import axios from "axios";
 
 const Formadduser = () => {
   const route = useRouter();
-  const [regis, setRegis] = useState({
+  const [user, setUser] = useState({
     fullname: "",
     email: "",
     team: "",
@@ -18,19 +18,17 @@ const Formadduser = () => {
   const handleadduser = (e) => {
     e.preventDefault();
     axios
-      .post("https://immersiveapp.site/mentor", regis)
+      .post("https://immersiveapp.site/mentor", user)
       .then((response) => {
-        setCookie("Token", response.data.data.token);
-        console.log(response);
         route.push("/userList");
       })
-      .catch((error) => console.log(error.response.data));
+      .catch((error) => console.log(error));
   };
 
   const inputRegister = (e) => {
-    let newRegis = { ...regis };
-    newRegis[e.target.name] = e.target.value;
-    setRegis(newRegis);
+    let newUser = { ...user };
+    newUser[e.target.name] = e.target.value;
+    setUser(newUser);
   };
 
   return (
@@ -53,87 +51,87 @@ const Formadduser = () => {
                       </p>
                     </div>
                   </div>
-                  <div className="divide-y divide-gray-200">
-                    <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
-                      <div className="flex flex-col">
-                        <input
-                          name="fullname"
-                          value={regis.fullname}
-                          onChange={(e) => inputRegister(e)}
-                          type="text"
-                          className="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
-                          placeholder="FullName"
-                        />
-                      </div>
+                  <form onSubmit={(e) => handleadduser(e)}>
+                    <div className="divide-y divide-gray-200">
+                      <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+                        <div className="flex flex-col">
+                          <input
+                            name="fullname"
+                            value={user.fullname}
+                            onChange={(e) => inputRegister(e)}
+                            type="text"
+                            className="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
+                            placeholder="FullName"
+                          />
+                        </div>
 
-                      <div className="flex flex-col">
-                        <input
-                          name="email"
-                          value={regis.email}
-                          onChange={(e) => inputRegister(e)}
-                          type="text"
-                          className="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
-                          placeholder="Email"
-                        />
-                      </div>
-                      <div className="flex flex-col">
-                        <input
-                          name="team"
-                          value={regis.team}
-                          onChange={(e) => inputRegister(e)}
-                          type="text"
-                          className="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
-                          placeholder="Team"
-                        />
-                      </div>
-                      <div className="flex flex-col">
-                        <p className="text-xs flex justify-center ">
-                          Choose a Admin or Default for from
-                        </p>
-                        <input
-                          name="role"
-                          value={regis.role}
-                          onChange={(e) => inputRegister(e)}
-                          type="text"
-                          className="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
-                          placeholder="Role"
-                        />
-                      </div>
-                      <div className="flex flex-col">
-                        <input
-                          name="password"
-                          value={regis.password}
-                          onChange={(e) => inputRegister(e)}
-                          type="password"
-                          className="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
-                          placeholder="Password"
-                        />
-                      </div>
+                        <div className="flex flex-col">
+                          <input
+                            name="email"
+                            value={user.email}
+                            onChange={(e) => inputRegister(e)}
+                            type="text"
+                            className="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
+                            placeholder="Email"
+                          />
+                        </div>
+                        <div className="flex flex-col">
+                          <input
+                            name="team"
+                            value={user.team}
+                            onChange={(e) => inputRegister(e)}
+                            type="text"
+                            className="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
+                            placeholder="Team"
+                          />
+                        </div>
+                        <div className="flex flex-col">
+                          <p className="text-xs flex justify-center ">
+                            Choose a Admin or Default for from
+                          </p>
+                          <input
+                            name="role"
+                            value={user.role}
+                            onChange={(e) => inputRegister(e)}
+                            type="text"
+                            className="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
+                            placeholder="Role"
+                          />
+                        </div>
+                        <div className="flex flex-col">
+                          <input
+                            name="password"
+                            value={user.password}
+                            onChange={(e) => inputRegister(e)}
+                            type="password"
+                            className="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
+                            placeholder="Password"
+                          />
+                        </div>
 
-                      <div className="flex flex-col">
-                        <p className="text-xs flex justify-center ">
-                          Choose a Active or Non-Active for from
-                        </p>
-                        <input
-                          name="state"
-                          value={regis.state}
-                          onChange={(e) => inputRegister(e)}
-                          type="text"
-                          className="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
-                          placeholder="Status"
-                        />
+                        <div className="flex flex-col">
+                          <p className="text-xs flex justify-center ">
+                            Choose a Active or Non-Active for from
+                          </p>
+                          <input
+                            name="status"
+                            value={user.status}
+                            onChange={(e) => inputRegister(e)}
+                            type="text"
+                            className="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
+                            placeholder="Status"
+                          />
+                        </div>
+                        <Button
+                          type="submit"
+                          className="flex justify-center text-slate-500 m h-8 w-48 "
+                          variant="outlined"
+                        >
+                          Add User
+                        </Button>
                       </div>
-                      <Button
-                        type="submit"
-                        onClick={handleadduser}
-                        className="flex justify-center text-slate-500 m h-8 w-48 "
-                        variant="outlined"
-                      >
-                        Add User
-                      </Button>
                     </div>
-                    {/* Dropdown */}
-                  </div>
+                  </form>
                 </div>
               </div>
             </div>

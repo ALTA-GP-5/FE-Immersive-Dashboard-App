@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import TableList from "../components/tableList";
 import Sidebar from "../components/sidebar";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 const options = ["QE 7", "FE 8", "BE 11"];
 const options2 = [
@@ -25,6 +25,9 @@ const options2 = [
 const options3 = ["Informatict", "Non-Informatict"];
 
 const MenteeList = () => {
+  const route = useRouter();
+  const [mentee, setMentee] = useState([]);
+
   const [value, setValue] = React.useState(options[0]);
   const [inputValue, setInputValue] = React.useState("");
 
@@ -34,39 +37,27 @@ const MenteeList = () => {
   const [value3, setValue3] = React.useState(options[0]);
   const [inputValue3, setInputValue3] = React.useState("");
 
-  const [listFil, setListFil] = useState([
-    "Nama",
-    "Kelas",
-    "Status",
-    "Category",
-    "Gender",
-    "Detail",
-  ]);
-  const [table, setTable] = useState([
-    {
-      Nama: "Uzumaki Boruto",
-      Kelas: "QE 7",
-      Status: "Active",
-      Category: "IT",
-      Gender: "Male",
-    },
-    {
-      Nama: "Uzumaki Himawari",
-      Kelas: "BE 11",
-      Status: "Unit 1",
-      Category: "Non IT",
-      Gender: "Female",
-    },
-    {
-      Nama: "Uzumaki borutot",
-      Kelas: "QE 7",
-      Status: "Active",
-      Category: "IT",
-      Gender: "Male",
-    },
-  ]);
+  const getMentee = () => {
+    axios
+      .get("https://immersiveapp.site/mentees")
+      .then((response) => {
+        setMentee(response.data.data);
+      })
+      .catch((error) => console.log(error));
+  };
 
-  const route = useRouter();
+  const handleDeleteUser = (mentee) => {
+    axios
+      .delete(`https://immersiveapp.site/mentee/${mentee}`)
+      .then((response) => {
+        console.log(response);
+        getMentee();
+      })
+      .catch((error) => console.log(error));
+  };
+  useEffect(() => {
+    getMentee();
+  }, []);
 
   return (
     <>
@@ -76,6 +67,20 @@ const MenteeList = () => {
         <div className="w-screen">
           {" "}
           {/* pembuka search  */}
+          <div className=" shadow-sm bg-gray-200 w-full h-24 p-4 justify-between  ">
+            <div className="space-x-3  ">
+              <div className="flex justify-between">
+                <h1 className="font-bold  text-xl text-slate-500 ml-3">
+                  Immersive Dashboard
+                </h1>
+                <h1 className=" font-bold text-xl text-slate-900 mr-10 mt-3">
+                  Halo, Sayang..
+                </h1>
+              </div>
+              <h1 className="font-bold text-lg text-slate-500 ">Mentee list</h1>
+            </div>
+            <hr />
+          </div>
           <div>
             <form className="flex absolute top-15 right-10 mt-10  padding-2">
               <div className="relative text-gray-200 focus-within:text-gray-200">
@@ -190,7 +195,80 @@ const MenteeList = () => {
               </Button>
             </form>
           </div>
-          <TableList listFil={listFil} table={table} />
+          {/* TABLE */}
+          <div className="w-9/12 mx-auto  overflow-hidden rounded-lg shadow-xs mt-20">
+            <div className="w-full overflow-x-auto">
+              <table className="w-full whitespace-no-wrap">
+                <thead>
+                  <tr className="text-xs font-semibold tracking-wide text-left uppercase border-b border-gray-300 text-gray-200 bg-gray-500">
+                    <th className="px-4 py-3 text-center">Name</th>
+                    <th className="px-4 py-3 text-center">Class</th>
+                    <th className="px-4 py-3 text-center">Status</th>
+                    <th className="px-4 py-3 text-center">Category</th>
+                    <th className="px-4 py-3 text-center">Gender</th>
+                    <th className="px-4 py-3 text-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className=" divide-y divide-gray-700 bg-gray-300">
+                  {mentee.map((item) => {
+                    return (
+                      <>
+                        <tr className="text-gray-800" key={item.id}>
+                          <td className="px-4 py-3 text-center">
+                            <div className="flex items-center text-sm">
+                              <p className="font-semibold">{item.name}</p>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 text-center text-sm">
+                            {item.class}
+                          </td>
+                          <td className="px-4 py-3 text-center text-sm">
+                            {item.status}
+                          </td>
+                          <td className="px-4 py-3 text-center text-sm">
+                            {item.category}
+                          </td>
+                          <td className="px-4 py-3 text-center text-sm">
+                            {item.gender}
+                          </td>
+
+                          <td className="px-4 py-3 text-center">
+                            <div className="flex items-center justify-center space-x-4 text-sm">
+                              <button
+                                className="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5  rounded-lg text-green-500 
+                                underline focus:outline-none focus:shadow-outline-gray"
+                                aria-label="Edit"
+                                onClick={() => route.push("/menteeLog")}
+                              >
+                                detail
+                              </button>
+
+                              <button
+                                className="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5  rounded-lg text-blue-500 
+                                underline focus:outline-none focus:shadow-outline-gray"
+                                aria-label="Edit"
+                                onClick={() => route.push("/editUser")}
+                              >
+                                edit
+                              </button>
+                              <button
+                                className="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5  rounded-lg text-red-500 
+                                underline focus:outline-none focus:shadow-outline-gray"
+                                aria-label="Delete"
+                                onClick={() => handleDeleteUser(item.id)}
+                              >
+                                delete
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      </>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </>

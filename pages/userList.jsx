@@ -27,7 +27,7 @@ const UserList = () => {
   };
   useEffect(() => {
     getUser();
-  });
+  }, []);
 
   return (
     <>
@@ -42,7 +42,7 @@ const UserList = () => {
                   Immersive Dashboard
                 </h1>
                 <h1 className=" font-bold text-xl text-slate-900 mr-10 mt-3">
-                  Hallo, Lord
+                  Hallo, Sayang..
                 </h1>
               </div>
               <h1 className="font-bold text-lg text-slate-500 ">User list</h1>
