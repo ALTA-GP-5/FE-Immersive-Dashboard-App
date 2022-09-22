@@ -1,10 +1,50 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import Sidebar from "../components/sidebar";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 const EditUser = () => {
   const route = useRouter();
+  const [regis, setRegis] = useState([]);
+  const [edit, setEdit] = useState({
+    fullname: "",
+    email: "",
+    team: "",
+    status: "",
+    roles: "",
+  });
+
+  const getUser = () => {
+    axios
+      .get("https://immersiveapp.site/mentors")
+      .then((response) => {
+        setRegis(response.data.data);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const handleEditUser = (regis) => {
+    axios
+      .put(`https://immersiveapp.site/mentor/${regis}`)
+      .then((response) => {
+        console.log(response);
+        getUser();
+        route.push("/userList");
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const InputData = (e) => {
+    e.preventDefault;
+    let newEdit = { ...edit };
+    newEdit[e.target.name] = e.target.value;
+    setEdit(newEdit);
+  };
+
+  useEffect(() => {
+    getUser();
+  });
 
   return (
     <>
@@ -30,76 +70,55 @@ const EditUser = () => {
                   <div className="divide-y divide-gray-200">
                     <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
                       <div className="flex flex-col">
-                        {/* <label className="leading-loose">FullName</label> */}
                         <input
                           type="text"
                           className="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
                           placeholder="FullName"
+                          onChange={(e) => InputData(e)}
                         />
                       </div>
 
                       <div className="flex flex-col">
-                        {/* <label className="leading-loose">Event Subtitle</label> */}
                         <input
                           type="text"
                           className="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
                           placeholder="Email"
+                          onChange={(e) => InputData(e)}
                         />
                       </div>
                       <div className="flex flex-col">
-                        {/* <label className="leading-loose">Event Subtitle</label> */}
                         <input
-                          type="dropdown"
+                          type="text"
                           className="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
                           placeholder="Team"
+                          onChange={(e) => InputData(e)}
                         />
                       </div>
 
                       {/* radio */}
-                      <div className="main flex  overflow-hidden select-none">
-                        <div className="title py-1 my-auto px-5 font-semibold">
-                          Status
-                        </div>
-                        <label className="flex radio p-2 cursor-pointer">
-                          <input
-                            className="my-auto transform scale-125"
-                            type="radio"
-                            name="sfg"
-                          />
-                          <div className="title px-2">Active</div>
-                        </label>
-
-                        <label className="flex radio p-2 cursor-pointer">
-                          <input
-                            className="my-auto transform scale-125"
-                            type="radio"
-                            name="sfg"
-                          />
-                          <div className="title px-2">Non-Active</div>
-                        </label>
+                      <div className="flex flex-col">
+                        <p className="text-xs flex justify-center ">
+                          Choose a Active or Non-Active for from
+                        </p>
+                        <input
+                          type="Text"
+                          className="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
+                          placeholder="Status"
+                          onChange={(e) => InputData(e)}
+                        />
                       </div>
                       {/* Role */}
-                      <div className="main flex  overflow-hidden select-none">
-                        <div className="title py-1 my-auto px-5 font-semibold">
-                          Role
-                        </div>
-                        <label className="flex radio p-2 cursor-pointer">
-                          <input
-                            className="my-auto transform scale-125"
-                            type="radio"
-                            name="sfg2"
-                          />
-                          <div className="title px-2">Admin</div>
-                        </label>
-
-                        <label className="flex radio p-2 cursor-pointer">
-                          <input
-                            className="my-auto transform scale-125"
-                            type="radio"
-                            name="sfg2"
-                          />
-                          <div className="title px-2">Default</div>
-                        </label>
+                      <div className="flex flex-col">
+                        <p className="text-xs flex justify-center ">
+                          Choose a Admin or Default for from
+                        </p>
+                        <input
+                          name="role"
+                          type="text"
+                          className="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600"
+                          placeholder="Role"
+                          onChange={(e) => InputData(e)}
+                        />
                       </div>
                       <div className="flex justify-center">
                         <Button
@@ -108,11 +127,11 @@ const EditUser = () => {
                           }}
                           className="flex justify-center text-slate-500 ml-3 h-8 w-48 "
                           variant="outlined"
+                          onSubmit={(e) => handleEditUser(e)}
                         >
                           Save
                         </Button>
                       </div>
-                      {/* Dropdown */}
                     </div>
                   </div>
                 </div>

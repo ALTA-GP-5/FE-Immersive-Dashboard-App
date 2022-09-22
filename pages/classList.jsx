@@ -1,22 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import Table from "../components/table";
 import Sidebar from "../components/sidebar";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 const ClassList = () => {
-  const [listMentee, setListMentee] = useState(["NamaKelas", "Mentor"]);
-  const [table, setTable] = useState([
-    { NamaKelas: "Front-end Batch 7", Mentor: "Yoga Devanada" },
-    { NamaKelas: "Front-end Batch 7", Mentor: "Yoga Devanada" },
-    { NamaKelas: "Front-end Batch 8", Mentor: "Bagas Adhitiya" },
-    { NamaKelas: "Front-end Batch 8", Mentor: "Bagas Adhitiya" },
-    { NamaKelas: "Back-end Batch 10", Mentor: "Jerry Young" },
-    { NamaKelas: "Back-end Batch 10", Mentor: "Jerry Young" },
-    { NamaKelas: "Back-end Batch 11", Mentor: "Fachkry" },
-    { NamaKelas: "Back-end Batch 11", Mentor: "Fachkry" },
-  ]);
   const route = useRouter();
+  const [classes, setClasses] = useState([]);
+
+  const getClasses = () => {
+    axios
+      .get("https://immersiveapp.site/classes")
+      .then((response) => {
+        setClasses(response.data.data);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const handleDeleteclass = (classes) => {
+    axios
+      .delete(`https://immersiveapp.site/class/${classes}`)
+      .then((response) => {
+        console.log(response);
+        getClasses();
+      })
+      .catch((error) => console.log(error));
+  };
+  useEffect(() => {
+    getClasses();
+  }, []);
 
   return (
     <>
@@ -31,7 +44,7 @@ const ClassList = () => {
                   Immersive Dashboard
                 </h1>
                 <h1 className=" font-bold text-xl text-slate-900 mr-10 mt-3">
-                  Hallo, Lord
+                  Hallo, Sayang..
                 </h1>
               </div>
               <h1 className="font-bold text-lg text-slate-500 ">Class list</h1>
@@ -81,7 +94,63 @@ const ClassList = () => {
             </form>
           </div>
           {/* penutup search */}
-          <Table listMentee={listMentee} table={table} />
+          {/* TAble */}
+          <div className="w-9/12 mx-auto  overflow-hidden rounded-lg shadow-xs mt-20">
+            <div className="w-full overflow-x-auto">
+              <table className="w-full whitespace-no-wrap">
+                <thead>
+                  <tr className="text-xs font-semibold tracking-wide text-left uppercase border-b border-gray-300 text-gray-200 bg-gray-500">
+                    <th className="px-4 py-3 text-center">id</th>
+                    <th className="px-4 py-3 text-center">mentor</th>
+                    <th className="px-4 py-3 text-center">Class name</th>
+                    <th className="px-4 py-3 text-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className=" divide-y divide-gray-700 bg-gray-300">
+                  {classes.map((item) => {
+                    return (
+                      <>
+                        <tr className="text-gray-800" key={item.id}>
+                          <td className="px-4 py-3 text-center">
+                            <div className="flex items-center text-sm">
+                              <p className="font-semibold">{item.id}</p>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 text-center text-sm">
+                            {item.mentor}
+                          </td>
+                          <td className="px-4 py-3 text-center text-sm">
+                            {item.name}
+                          </td>
+
+                          <td className="px-4 py-3 text-center">
+                            <div className="flex items-center justify-center space-x-4 text-sm">
+                              <button
+                                className="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5  rounded-lg text-blue-500 
+                                underline focus:outline-none focus:shadow-outline-gray"
+                                aria-label="Edit"
+                                onClick={() => route.push("/editUser")}
+                              >
+                                edit
+                              </button>
+                              <button
+                                className="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5  rounded-lg text-red-500 
+                                underline focus:outline-none focus:shadow-outline-gray"
+                                aria-label="Delete"
+                                onClick={() => handleDeleteclass(item.id)}
+                              >
+                                delete
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      </>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </>
