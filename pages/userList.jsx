@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import TableUser from "../components/tableUser";
 import Sidebar from "../components/sidebar";
@@ -8,32 +8,20 @@ import { useRouter } from "next/router";
 
 const UserList = () => {
   const route = useRouter();
+  const [regis, setRegis] = useState([]);
 
-  const [listUser, setListUser] = useState([
-    "Fullname",
-    "Email",
-    "Team",
-    "Roles",
-    "Status",
-  ]);
-  const [table, setTable] = useState([
-    {
-      Fullname: "",
-      Email: "",
-      Team: "",
-      Roles: "",
-      Status: "",
-    },
-  ]);
+  useEffect(() => {
+    getUser();
+  }, []);
 
-  const handleGetuser = () => {
-    axios.get("https://immersiveapp.site/mentors", table);
-    setTable(response.data.data)
+  const getUser = () => {
+    axios
+      .get("https://immersiveapp.site/mentors", regis)
       .then((response) => {
         setCookie("Token", response.data.data.token);
-        console.log(response);
+        setRegis(response.data.data);
       })
-      .catch((error) => console.log(error.response.data));
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -57,6 +45,7 @@ const UserList = () => {
             <hr />
           </div>
           {/* penutup header */}
+
           {/* pembuka search  */}
           <div>
             <form className="flex absolute top-15 right-4 mt-2 padding-2">
@@ -99,18 +88,50 @@ const UserList = () => {
             </form>
           </div>
           {/* penutup search */}
-          {table.map((item, index) => {
+
+          {/* Pala */}
+
+          {regis.map((item, index) => {
             return (
-              <div key={index}>
-                <TableUser
-                  listUser={listUser}
-                  table={table}
-                  Fullname={item.Fullname}
-                  Email={item.Email}
-                  Team={item.Team}
-                  Roles={item.Roles}
-                  Status={item.Status}
-                />
+              <div key={index} className="">
+                <div class="overflow-x-auto relative">
+                  <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <tbody>
+                      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <td
+                          scope="row"
+                          class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        >
+                          {item.fullname}
+                        </td>
+                        <td
+                          scope="row"
+                          class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        >
+                          {item.email}
+                        </td>
+                        <td
+                          scope="row"
+                          class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        >
+                          {item.team}
+                        </td>
+                        <td
+                          scope="row"
+                          class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        >
+                          {item.role}
+                        </td>
+                        <td
+                          scope="row"
+                          class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        >
+                          {item.status}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             );
           })}
