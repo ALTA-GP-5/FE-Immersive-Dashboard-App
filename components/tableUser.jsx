@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 
-const TableUser = ({ listUser, table }) => {
+const TableUser = ({
+  listUser,
+  table,
+  Fullname,
+  Email,
+  Team,
+  Roles,
+  Status,
+}) => {
   const route = useRouter();
 
   return (
@@ -21,43 +29,39 @@ const TableUser = ({ listUser, table }) => {
           </tr>
         </thead>
         <tbody>
-          {table.map((item, index) => {
-            return (
-              <>
-                <tr
-                  className="text-left border-[#bababa] border-b-[1px] text-sm "
-                  style={{ border: "1px solid #000" }}
-                  key={index}
+          <>
+            <tr
+              className="text-left border-[#bababa] border-b-[1px] text-sm "
+              style={{ border: "1px solid #000" }}
+              // key={index}
+            >
+              {/* <td className="hilang:hidden">{index + 1}</td> */}
+              <td>{Fullname}</td>
+              <td>{Email}</td>
+              <td>{Team}</td>
+              <td>{Roles}</td>
+              <td>{Status}</td>
+              <td>
+                <button
+                  onClick={() => {
+                    route.push("/editUser");
+                  }}
+                  className="flex text-slate-900  ml-1"
+                  variant="outlined"
                 >
-                  <td className="hilang:hidden">{index + 1}</td>
-                  <td>{item.Fullname}</td>
-                  <td>{item.Email}</td>
-                  <td>{item.Team}</td>
-                  <td>{item.Roles}</td>
-                  <td>{item.Status}</td>
-                  <td>
-                    <button
-                      onClick={() => {
-                        route.push("/editUser");
-                      }}
-                      className="flex text-slate-900  ml-1"
-                      variant="outlined"
-                    >
-                      🖊️
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      className="flex text-slate-900  ml-1  "
-                      variant="outlined"
-                    >
-                      🗑️
-                    </button>
-                  </td>
-                </tr>
-              </>
-            );
-          })}
+                  🖊️
+                </button>
+              </td>
+              <td>
+                <button
+                  className="flex text-slate-900  ml-1  "
+                  variant="outlined"
+                >
+                  🗑️
+                </button>
+              </td>
+            </tr>
+          </>
         </tbody>
       </table>
     </div>

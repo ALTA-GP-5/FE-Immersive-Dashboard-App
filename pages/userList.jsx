@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Button } from "@mui/material";
 import TableUser from "../components/tableUser";
 import Sidebar from "../components/sidebar";
+import { setCookie } from "cookies-next";
+import axios from "axios";
 import { useRouter } from "next/router";
 
 const UserList = () => {
@@ -16,34 +18,23 @@ const UserList = () => {
   ]);
   const [table, setTable] = useState([
     {
-      Fullname: "Ikram Abdillah",
-      Email: "Ikram.koli@gmail.com",
-      Team: "placement",
-      Roles: "default",
-      Status: "active",
-    },
-    {
-      Fullname: "Ganjar Widatama",
-      Email: "gwidatama@gmail.com",
-      Team: "people-skill",
-      Roles: "default",
-      Status: "non-active",
-    },
-    {
-      Fullname: "Wahyu Gubernur",
-      Email: "soepoer.wahyu@gmail.com",
-      Team: "mentor",
-      Roles: "admin",
-      Status: "active",
-    },
-    {
-      Fullname: "Rofifattuz Zulfa",
-      Email: "LordZul@gmail.com",
-      Team: "mentor",
-      Roles: "admin",
-      Status: "active",
+      Fullname: "",
+      Email: "",
+      Team: "",
+      Roles: "",
+      Status: "",
     },
   ]);
+
+  const handleGetuser = () => {
+    axios.get("https://immersiveapp.site/mentors", table);
+    setTable(response.data.data)
+      .then((response) => {
+        setCookie("Token", response.data.data.token);
+        console.log(response);
+      })
+      .catch((error) => console.log(error.response.data));
+  };
 
   return (
     <>
@@ -108,7 +99,21 @@ const UserList = () => {
             </form>
           </div>
           {/* penutup search */}
-          <TableUser listUser={listUser} table={table} />
+          {table.map((item, index) => {
+            return (
+              <div key={index}>
+                <TableUser
+                  listUser={listUser}
+                  table={table}
+                  Fullname={item.Fullname}
+                  Email={item.Email}
+                  Team={item.Team}
+                  Roles={item.Roles}
+                  Status={item.Status}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </>

@@ -2,10 +2,16 @@ import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Logo from "../assets/logo1.png";
+import { deleteCookie, getCookie } from "cookies-next";
 
 const Sidebar = () => {
   const route = useRouter();
+  const Token = getCookie("Token");
 
+  const handleLogout = () => {
+    deleteCookie("Token");
+    route.push("/");
+  };
   return (
     <div className="md:w-3/12 w-6/12 h-screen ">
       <div className=" border-b py-3 mt-1 flex justify-around ">
@@ -72,13 +78,7 @@ const Sidebar = () => {
           </div>
           <div>
             <div className="flex p-3 text-gray-700  space-x-4 0 hover:bg-gray-50 hover:text-blue-900  cursor-pointer  ">
-              <button
-                onClick={() => {
-                  route.push("/");
-                }}
-              >
-                ⛔️Logout⛔️
-              </button>
+              <button onClick={handleLogout}>Logout</button>
             </div>
           </div>
         </div>

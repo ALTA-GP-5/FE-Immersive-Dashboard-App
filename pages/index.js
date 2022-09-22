@@ -1,11 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { setCookie } from "cookies-next";
+import axios from "axios";
 
 import logo1 from "../assets/logo1.png";
 
 export default function Home() {
   const route = useRouter();
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    let newuser = { ...user };
+    newuser[e.target.name] = e.target.value;
+    setUser(newuser);
+  };
+
+  const handleLogin = () => {
+    axios
+      .post("https://immersiveapp.site/login", user)
+      .then((response) => {
+        setCookie("Token", response.data.data.token);
+        console.log(response);
+        route.push("/dashboard");
+      })
+      .catch((error) => console.log(error.response.data));
+  };
 
   return (
     <>
@@ -24,6 +47,7 @@ export default function Home() {
                 <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
                   <div className="relative">
                     <input
+                      onChange={(e) => handleChange(e)}
                       autocomplete="off"
                       id="email"
                       name="email"
@@ -40,6 +64,7 @@ export default function Home() {
                   </div>
                   <div className="relative">
                     <input
+                      onChange={(e) => handleChange(e)}
                       autocomplete="off"
                       id="password"
                       name="password"
@@ -56,9 +81,7 @@ export default function Home() {
                   </div>
                   <div className="relative">
                     <button
-                      onClick={() => {
-                        route.push("/dashboard");
-                      }}
+                      onClick={handleLogin}
                       className="bg-gray-500 text-white rounded-md px-2 py-1"
                     >
                       Login
