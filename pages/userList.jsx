@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@mui/material";
-import TableUser from "../components/tableUser";
 import Sidebar from "../components/sidebar";
-import { setCookie } from "cookies-next";
 import axios from "axios";
 import { useRouter } from "next/router";
 
@@ -10,19 +8,26 @@ const UserList = () => {
   const route = useRouter();
   const [regis, setRegis] = useState([]);
 
-  useEffect(() => {
-    getUser();
-  }, []);
-
   const getUser = () => {
     axios
-      .get("https://immersiveapp.site/mentors", regis)
+      .get("https://immersiveapp.site/mentors")
       .then((response) => {
-        setCookie("Token", response.data.data.token);
         setRegis(response.data.data);
       })
       .catch((error) => console.log(error));
   };
+  const handleDeleteUser = (regis) => {
+    axios
+      .delete(`https://immersiveapp.site/mentor/${regis}`)
+      .then((response) => {
+        console.log(response);
+        getUser();
+      })
+      .catch((error) => console.log(error));
+  };
+  useEffect(() => {
+    getUser();
+  });
 
   return (
     <>
@@ -48,7 +53,7 @@ const UserList = () => {
 
           {/* pembuka search  */}
           <div>
-            <form className="flex absolute top-15 right-4 mt-2 padding-2">
+            <div className="flex absolute top-15 right-4 mt-2 padding-2">
               <div className="relative text-gray-200 focus-within:text-gray-200">
                 <span className="absolute inset-y-0 left-0 flex items-center pl-2">
                   <button
@@ -85,56 +90,75 @@ const UserList = () => {
               >
                 Add new
               </Button>
-            </form>
+            </div>
           </div>
           {/* penutup search */}
 
           {/* Pala */}
+          <div className="w-9/12 mx-auto  overflow-hidden rounded-lg shadow-xs mt-20">
+            <div className="w-full overflow-x-auto">
+              <table className="w-full whitespace-no-wrap">
+                <thead>
+                  <tr className="text-xs font-semibold tracking-wide text-left uppercase border-b border-gray-300 text-gray-200 bg-gray-500">
+                    <th className="px-4 py-3 text-center">Fullname</th>
+                    <th className="px-4 py-3 text-center">Email</th>
+                    <th className="px-4 py-3 text-center">Team</th>
+                    <th className="px-4 py-3 text-center">Role</th>
+                    <th className="px-4 py-3 text-center">Status</th>
+                    <th className="px-4 py-3 text-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className=" divide-y divide-gray-700 bg-gray-300">
+                  {regis.map((item) => {
+                    return (
+                      <>
+                        <tr className="text-gray-800" key={item.id}>
+                          <td className="px-4 py-3 text-center">
+                            <div className="flex items-center text-sm">
+                              <p className="font-semibold">{item.fullname}</p>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 text-center text-sm">
+                            {item.email}
+                          </td>
+                          <td className="px-4 py-3 text-center text-sm">
+                            {item.team}
+                          </td>
+                          <td className="px-4 py-3 text-center text-sm">
+                            {item.role}
+                          </td>
+                          <td className="px-4 py-3 text-center text-sm">
+                            {item.status}
+                          </td>
 
-          {regis.map((item, index) => {
-            return (
-              <div key={index} className="">
-                <div class="overflow-x-auto relative">
-                  <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <tbody>
-                      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        <td
-                          scope="row"
-                          class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                        >
-                          {item.fullname}
-                        </td>
-                        <td
-                          scope="row"
-                          class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                        >
-                          {item.email}
-                        </td>
-                        <td
-                          scope="row"
-                          class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                        >
-                          {item.team}
-                        </td>
-                        <td
-                          scope="row"
-                          class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                        >
-                          {item.role}
-                        </td>
-                        <td
-                          scope="row"
-                          class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                        >
-                          {item.status}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            );
-          })}
+                          <td className="px-4 py-3 text-center">
+                            <div className="flex items-center justify-center space-x-4 text-sm">
+                              <button
+                                className="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5  rounded-lg text-blue-500 
+                                underline focus:outline-none focus:shadow-outline-gray"
+                                aria-label="Edit"
+                                onClick={() => route.push("/editUser")}
+                              >
+                                edit
+                              </button>
+                              <button
+                                className="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5  rounded-lg text-red-500 
+                                underline focus:outline-none focus:shadow-outline-gray"
+                                aria-label="Delete"
+                                onClick={() => handleDeleteUser(item.id)}
+                              >
+                                delete
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      </>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </>
